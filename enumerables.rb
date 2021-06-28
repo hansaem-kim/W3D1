@@ -41,12 +41,8 @@ class Array
     end
 
     def my_flatten
-        return self if self.length ==1
-        new_array=[]
-        self.each do |ele|
-            new_array += [ele].my_flatten
-        end
-        new_array
+        element_string = self.join("")
+        element_array = element_string.split("").map(&:to_i)
     end
 
     def my_zip(*args)
@@ -61,37 +57,33 @@ class Array
         new_array
     end
 
+    def my_rotate(num=1)
+        num.abs.times do
+            if num > 0
+                self.push(self.shift)
+            else
+                self.unshift(self.pop)
+            end
+        end
+        self
+    end 
+
+    def my_join(separator="")
+        new_string = ""
+        self.each do |ele|
+            new_string += ele + separator
+        end
+        new_string[0...-1]
+    end
+
+    def my_reverse
+        new_array = []
+        i=self.length-1
+        while i >= 0
+            new_array << self[i]
+            i-=1
+        end
+        new_array
+    end
+
 end
-
-# return_value = [1, 2, 3].my_each do |num|
-#   puts num
-# end.my_each do |num|
-#   puts num
-# end
-# p return_value  # => [1, 2, 3]
-
-# a = [1, 2, 3]
-# p a.my_select { |num| num > 1 } # => [2, 3]
-# p a.my_select { |num| num == 4 } # => []
-
-# a = [1, 2, 3]
-# p a.my_reject { |num| num > 1 } # => [1]
-# p a.my_reject { |num| num == 4 } # => [1, 2, 3]
-
-# a = [1, 2, 3]
-# p a.my_any? { |num| num > 1 } # => true
-# p a.my_any? { |num| num == 4 } # => false
-# p a.my_all? { |num| num > 1 } # => false
-# p a.my_all? { |num| num < 4 } # => true
-
-# p [1, 2, 3, [4, [5, 6]], [[[7]], 8]].my_flatten # => [1, 2, 3, 4, 5, 6, 7, 8]
-
-a = [ 4, 5, 6 ]
-b = [ 7, 8, 9 ]
-p [1, 2, 3].my_zip(a, b) # => [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
-p a.my_zip([1,2], [8])   # => [[4, 1, 8], [5, 2, nil], [6, nil, nil]]
-p [1, 2].my_zip(a, b)    # => [[1, 4, 7], [2, 5, 8]]
-
-c = [10, 11, 12]
-d = [13, 14, 15]
-p [1, 2].my_zip(a, b, c, d)    # => [[1, 4, 7, 10, 13], [2, 5, 8, 11, 14]]
